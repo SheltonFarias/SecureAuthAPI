@@ -83,11 +83,12 @@ export class UserController {
 //         return res.status(404).json({ error: "Usuário não encontrado" });
 //       }
   
-//       // const updatedUser = await prisma.user.update()
+//       // const updatedUser = await prisma.user.update({
+
+//})
   
 //       return res.status(200).json({ user: updatedUser });
 //     } catch (error) {
-//       console.error("Erro ao atualizar usuário:", error);
 //       return res.status(500).json({ error: "Erro ao atualizar usuário" });
 //     }
 //   }

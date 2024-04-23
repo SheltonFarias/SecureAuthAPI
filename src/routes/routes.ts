@@ -10,13 +10,14 @@ const routes = Router();
 
 // auth
 routes.post('/api/login', authController.login)
-routes.get('/api/usuario/:id', userController.get)
 
 //user
-routes.post("/api/usuario", userController.create)
-// routes.update("api/usuarios/:id", userController.update)
-routes.get("/api/usuarios", userController.list)
-routes.delete("/api/usuario/:id", userController.delete)
+routes.route('/api/usuario')
+  .get('/api/usuario/:id', userController.get)
+  .post("/api/usuario", userController.create)
+  // routes.update("api/usuarios/:id", userController.update)
+  .get("/api/usuarios", userController.list)
+  .delete("/api/usuario/:id", userController.delete)
 
 
 export { routes };
