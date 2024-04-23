@@ -1,16 +1,29 @@
 import { Request, Response } from "express"
 import bcrypt from 'bcrypt'
 import { prisma } from "../services/prisma"
-import { error } from "console";
 
 export class UserController {
-  async get(req: Request, res: Response) {
+  async list(req: Request, res: Response) {
       const users = await prisma.user.findMany()
       return res.status(200).json({ users });
-    
+    }
+
+  async get(req: Request, res: Response) {
+    const userId = req.params.id; 
+    try {
+      const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+      if (!user) {
+        return res.status(404).json({ error: "Usuário não encontrado" });
+      }
+      return res.status(200).json({ user });
+    } catch (error) {
+      console.error("Erro ao procurar usuario", error);
+      return res.status(500).json({ error: "Erro ao procurar o usuario" });
+    }
   }
+
  async create(req: Request, res: Response) {
-    const { email, firstName, lastName, password } = req.body;
+    const { email, firstName, lastName, password, photograph, token } = req.body;
 
     const userExists = await prisma.user.findUnique({where : { email }})
 
@@ -25,7 +38,9 @@ export class UserController {
         email,
         firstName,
         lastName,
-        password: passwordHash
+        password: passwordHash,
+        photograph,
+        token
       }
     })
     if (email.length < 5 || email.length > 100) {
@@ -42,4 +57,38 @@ export class UserController {
     }
     return res.json({user})
   }
-}
+
+  async delete(req: Request, res: Response) {
+    const userId = req.params.id; // Extrai o ID do parâmetro da rota
+    try {
+      const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+      if (!user) {
+        return res.status(404).json({ error: "Usuário não encontrado" });
+      }
+      await prisma.user.delete({ where: { id: parseInt(userId) } });
+      return res.status(200).json({ message: "Usuário deletado com sucesso" });
+    } catch (error) {
+      console.error("Erro ao deletar usuário por ID:", error);
+      return res.status(500).json({ error: "Erro ao deletar usuário por ID" });
+    }
+  }
+//   async update(req: Request, res: Response) {
+//     const userId = req.params.id; 
+//     const { email, firstName, lastName, password, photograph, token } = req.body;
+  
+//     try {
+//       const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+  
+//       if (!user) {
+//         return res.status(404).json({ error: "Usuário não encontrado" });
+//       }
+  
+//       // const updatedUser = await prisma.user.update()
+  
+//       return res.status(200).json({ user: updatedUser });
+//     } catch (error) {
+//       console.error("Erro ao atualizar usuário:", error);
+//       return res.status(500).json({ error: "Erro ao atualizar usuário" });
+//     }
+//   }
+ }

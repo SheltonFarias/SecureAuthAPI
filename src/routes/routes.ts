@@ -1,20 +1,22 @@
 const { Router } = require('express')
-import { UserController } from "../controllers/UserController";
 import { AuthController } from "../controllers/AuthController";
+import { UserController } from "../controllers/UserController";
 import { authMiddlwares } from "../middlewares/auth";
 
-const userController = new UserController()
 const authController = new AuthController()
+const userController = new UserController()
 
 const routes = Router();
 
-
-routes.post("/users", userController.create)
-routes.get("/users", userController.get)
-
 // auth
-routes.post('/api/login', authController.authenticate)
-routes.get('/api/authentication', authMiddlwares, userController.get)
-// routes.post('/api/refresh', 'AuthController.refresh')
+routes.post('/api/login', authController.login)
+routes.get('/api/usuario/:id', userController.get)
+
+//user
+routes.post("/api/usuario", userController.create)
+// routes.update("api/usuarios/:id", userController.update)
+routes.get("/api/usuarios", userController.list)
+routes.delete("/api/usuario/:id", userController.delete)
+
 
 export { routes };

@@ -18,8 +18,12 @@ export function authMiddlwares(
         return res.status(401).json({ error: "Token not provided" })
     }
 
-    const [, token] = authorization.split(" ")
+    const [type, token] = authorization.split(" ")
 
+    if (type !== "Bearer" || !token) {
+        return res.status(401).json({ error: "Invalid token format" })
+    }
+    
     try{
         const decoded = jwt.verify(token, "secret")
         const { id } = decoded as TokenPayload

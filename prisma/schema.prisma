@@ -13,6 +13,8 @@ model User {
   firstName  String? @map("first_name")
   lastName String? @map("last_name")
   password String @map("password")
+  photograph String? @map ("photograph")
+  token String? @map("token")
   @@map("users")
 }
 

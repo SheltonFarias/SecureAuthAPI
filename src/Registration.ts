@@ -3,4 +3,6 @@ export interface createUsers {
   firstName : string;
   lastName : string;
   password : string;
+  photograph: string;
+  token: string
 }
