@@ -12,8 +12,8 @@
 
 ## Inicialização do Banco de Dados 
 - A inialização do Bando de dados e criação de tabela e feita pelo framework prisma
-- A API tem presente uma pasta prisma na qual contem os schemas que vao utilizados para que a aplicação ocorra
-- o comando utilizado para a criação de do DB e tabelas e "npx prisma migrate dev"
+- A API tem presente uma pasta prisma na qual contem os schemas que são utilizados para que a aplicação ocorra
+- o comando utilizado para a criação das tabelas e "npx prisma migrate dev"
 
 ## Servidor local 
 - utilizado o nodemon e inciado com o comando "npm run dev"

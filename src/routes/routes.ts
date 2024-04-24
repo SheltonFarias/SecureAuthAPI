@@ -12,12 +12,14 @@ const routes = Router();
 routes.post('/api/login', authController.login)
 
 //user
-routes.route('/api/usuario')
-  .get('/:id', userController.get)
-  .post("/", userController.create)
-  // routes.update("/:id", userController.update)
-  .get("/", userController.list)
-  .delete("/:id", userController.delete)
 
+routes.route('/api/usuario/:id')
+  .get(userController.get) 
+//.put(userController.update) 
+  .delete(userController.delete); 
+
+routes.route('/api/usuario')
+  .get(userController.list) 
+  .post(userController.create);
 
 export { routes };
