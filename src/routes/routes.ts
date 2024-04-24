@@ -16,10 +16,10 @@ routes.post('/api/login', authController.login)
 routes.route('/api/usuario/:id')
   .get(userController.get) 
 //.put(userController.update) 
-  .delete(userController.delete); 
+  .delete(userController.delete)
 
 routes.route('/api/usuario')
   .get(userController.list) 
-  .post(userController.create);
+  .post(userController.create)
 
 export { routes };
