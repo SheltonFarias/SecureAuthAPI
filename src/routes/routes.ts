@@ -13,11 +13,11 @@ routes.post('/api/login', authController.login)
 
 //user
 routes.route('/api/usuario')
-  .get('/api/usuario/:id', userController.get)
-  .post("/api/usuario", userController.create)
-  // routes.update("api/usuarios/:id", userController.update)
-  .get("/api/usuarios", userController.list)
-  .delete("/api/usuario/:id", userController.delete)
+  .get('/:id', userController.get)
+  .post("/", userController.create)
+  // routes.update("/:id", userController.update)
+  .get("/", userController.list)
+  .delete("/:id", userController.delete)
 
 
 export { routes };
