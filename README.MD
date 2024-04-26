@@ -9,6 +9,7 @@
 - O banco de dados se encontra dentro de um container docker as especificações estao presente no arquivo
  docker-compose.yml 
 - para criação do container com base nesse arquivo e necesssario o uso do comando "docker compose up -d"
+- cada vez que for necessario o uso do banco de dados e necesarri
 
 ## Inicialização do Banco de Dados 
 - A inialização do Bando de dados e criação de tabela e feita pelo framework prisma

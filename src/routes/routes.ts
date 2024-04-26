@@ -15,7 +15,7 @@ routes.post('/api/login', authController.login)
 routes.route('/api/usuario/:id')
   .get(authMiddlwares, userController.get) 
 //.put(userController.update) 
-  .delete(authController, userController.delete)
+  .delete(userController.delete)
 
 routes.route('/api/usuario')
   .get(authMiddlwares, userController.list) 
