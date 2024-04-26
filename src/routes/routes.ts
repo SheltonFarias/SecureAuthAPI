@@ -12,14 +12,13 @@ const routes = Router();
 routes.post('/api/login', authController.login)
 
 //user
-
 routes.route('/api/usuario/:id')
-  .get(userController.get) 
+  .get(authMiddlwares, userController.get) 
 //.put(userController.update) 
-  .delete(userController.delete)
+  .delete(authController, userController.delete)
 
 routes.route('/api/usuario')
-  .get(userController.list) 
-  .post(userController.create)
+  .get(authMiddlwares, userController.list) 
+  .post(authMiddlwares, userController.create)
 
 export { routes };

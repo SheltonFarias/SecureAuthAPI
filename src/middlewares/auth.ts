@@ -18,11 +18,7 @@ export function authMiddlwares(
         return res.status(401).json({ error: "Token not provided" })
     }
 
-    const [type, token] = authorization.split(" ")
-
-    if (type !== "Bearer" || !token) {
-        return res.status(401).json({ error: "Invalid token format" })
-    }
+    const [token] = authorization.split(" ")[1]
     
     try{
         const decoded = jwt.verify(token, "secret")
@@ -30,7 +26,6 @@ export function authMiddlwares(
 
         req.useId  = id
         next()
-
     }catch (error) {
         return res.status(401).json({ error: "Token invalid" })
     }

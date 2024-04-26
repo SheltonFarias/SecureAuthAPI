@@ -6,31 +6,21 @@ import jwt from 'jsonwebtoken';
 export class AuthController {
   async login(req: Request, res: Response) {
     const { email, password } = req.body;
-    
-    const user = await prisma.user.findUnique({ where: { email } });
-    
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    const user = await prisma.user.findUnique({ where: { email } }); 
+    if(!user || !(await bcrypt.compare(password, user.password))){
+      return res.status(401).json({ message: "Credenciales inválidas" }); 
     }
-    const { id, firstName, lastName } = user;
-    
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid password" });
-    }
-
-  
+    const { id, firstName, lastName } = user;  
     const token = jwt.sign({ id: user.id }, "secret", { expiresIn: "1h" });
-
+    
     await prisma.user.update({
       where: { id: user.id },
       data: { token }
     });
 
-    return res.json({ user: { id, email, firstName, lastName }, token });
+    return res.json({ user: {id, firstName, lastName, email}, token });
   }
-
+  
   async refreshToken() {
     const users = await prisma.user.findMany();
 
@@ -45,6 +35,7 @@ export class AuthController {
   }
 }
 
+// Llamar a refreshToken cada hora
 setInterval(async () => {
   const authController = new AuthController();
   await authController.refreshToken();
