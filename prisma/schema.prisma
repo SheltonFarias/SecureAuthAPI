@@ -8,17 +8,18 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
+  id         Int     @id @default(autoincrement())
+  email      String  @unique
   firstName  String? @map("first_name")
-  lastName String? @map("last_name")
-  password String @map("password")
-  photograph String? @map ("photograph")
-  token String? @map("token")
+  lastName   String? @map("last_name")
+  password   String  @map("password")
+  photograph String? @map("photograph")
+  token      String? @map("token")
+
   @@map("users")
 }
 
 model Teste {
-  id    Int     @id @default(autoincrement())
-  name  String?
+  id   Int     @id @default(autoincrement())
+  name String?
 }
