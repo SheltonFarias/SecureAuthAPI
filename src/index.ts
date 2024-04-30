@@ -7,11 +7,11 @@ app.use(express.json());
 
 app.use(cors({
 	origin: '*',
-	methods:'GET, PUT, POST, DELETE'
+	methods: 'GET, PUT, POST, DELETE'
 }))
 
 app.use(routes)
 
 app.listen(3000, () => {
-  console.log('Server on: http://localhost:3000 ON!')
+	console.log('Server on: http://localhost:3000 ON!')
 })

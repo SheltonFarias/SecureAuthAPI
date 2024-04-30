@@ -20,23 +20,4 @@ export class AuthController {
 
     return res.json({ user: { id, firstName, lastName, email }, token });
   }
-
-  async refreshToken() {
-    const users = await prisma.user.findMany();
-
-    for (const user of users) {
-      const token = jwt.sign({ id: user.id }, "secret", { expiresIn: "1h" });
-
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { token }
-      });
-    }
-  }
 }
-
-// Llamar a refreshToken cada hora
-setInterval(async () => {
-  const authController = new AuthController();
-  await authController.refreshToken();
-}, 3600000);

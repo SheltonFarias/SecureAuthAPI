@@ -12,6 +12,7 @@
 - Quando a Api for usada e necessario executar um start no container para que o DB seja inicializado atraves do comando 
 - "sudo docker start tributario-pg" quando for aplicação linux 
 - em aplicação windows e usado somente "docker start tributario-pg"
+- para parar o container e utilizado o comando "docker stop tributario-pg"
 
 ## Inicialização do Banco de Dados 
 - A inialização do Bando de dados e criação de tabela e feita pelo framework prisma
