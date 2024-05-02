@@ -8,13 +8,13 @@ datasource db {
 }
 
 model User {
-  id         Int     @id @default(autoincrement())
-  email      String  @unique
-  firstName  String? @map("first_name")
-  lastName   String? @map("last_name")
-  password   String  @map("password")
-  photograph String? @map("photograph")
-  token      String? @map("token")
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String? @map("name")
+  login    String? @map("login")
+  password String  @map("password")
+  img      String? @map("img")
+  token    String? @map("token")
 
   @@map("users")
 }
