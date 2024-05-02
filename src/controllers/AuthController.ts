@@ -5,19 +5,26 @@ import jwt from 'jsonwebtoken';
 
 export class AuthController {
   async login(req: Request, res: Response) {
-    const { email , password } = req.body;
-    const user = await prisma.user.findUnique({ where: { email } });
+    const { email, password, login } = req.body;
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email },
+          { login }
+        ]
+      }
+    });
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ message: 'Credenciales inválidas' });
+      return res.status(401).json({ message: 'invalid credentials' });
     }
-    const {password: userPassword, ...userData} = user 
     const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' });
+    const { password: userPassword, ...userData } = user
 
     await prisma.user.update({
       where: { id: user.id },
       data: { token }
     });
 
-    return res.json({ user:{userData}, token });
+    return res.json({ user: { userData } });
   }
 }

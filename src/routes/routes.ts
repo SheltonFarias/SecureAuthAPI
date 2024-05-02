@@ -19,6 +19,6 @@ routes.route('/api/usuarios/:id')
 
 routes.route('/api/usuarios')
   .get(authMiddlwares, userController.list) 
-  .post(authMiddlwares, userController.create)
+  .post( userController.create)
 
 export { routes };
