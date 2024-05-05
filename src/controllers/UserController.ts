@@ -37,19 +37,12 @@ export class UserController {
         token
       }
     })
-    if (userExists) {
-      return res.json({ error: 'User exists' })
-    }
-    if (email.length < 5 || email.length > 100) {
+    if ( (userExists) && (email.length < 5 || email.length > 100) && (!emailRegex.test(email)) ) {
       return res
         .status(400)
-        .json({ error: 'O campo "email" deve ter entre 5 e 100 caracteres.' })
+        .json({ error: 'error when creating user' })
     }
-    if (!emailRegex.test(email)) {
-      return res
-        .status(400)
-        .json({ error: 'O campo "email" não está em um formato válido.' })
-    }
+
     return res.json({ user, message: 'Usuario criado com sucesso' })
   }
 
