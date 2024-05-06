@@ -37,7 +37,7 @@ export class UserController {
         token
       }
     })
-    if ( (userExists) && (email.length < 5 || email.length > 100) && (!emailRegex.test(email)) ) {
+    if ((userExists) && (email.length < 5 || email.length > 100) && (!emailRegex.test(email))) {
       return res
         .status(400)
         .json({ error: 'error when creating user' })
@@ -61,31 +61,26 @@ export class UserController {
     }
   }
   async update(req: Request, res: Response) {
-    return {}
-    //   const userId = req.params.id;
-    //   const { email, firstName, lastName, password, photograph, token } = req.body;
+    const userId = req.params.id;
+    const { email, name, login, password, img, token } = req.body;
 
-    //   try {
-    //     const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+    const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+    const updatedUser = await prisma.user.update({
+      where: { id: parseInt(userId) },
+      data: {
+        email,
+        name,
+        login,
+        password: password ? await bcrypt.hash(password, 10) : undefined,
+        img,
+        token
+      }
+    });
+    if (user) {
+      return res.status(200).json({ user: updatedUser });
+    } else (!user); {
+      return res.status(500).json({ error: 'Erro ao atualizar usuário' });
+    }
 
-    //     if (!user) {
-    //       return res.status(404).json({ error: 'Usuário não encontrado' });
-    //     }
-
-    //     const updatedUser = await prisma.user.update({
-    //       where: { id: parseInt(userId) },
-    //       data: {
-    //         email,
-    //         firstName,
-    //         lastName,
-    //         password: password ? await bcrypt.hash(password, 10) : undefined,
-    //         photograph,
-    //         token
-    //       }
-    //     });
-    //     return res.status(200).json({ user: updatedUser });
-    //   } catch (error) {
-    //     return res.status(500).json({ error: 'Erro ao atualizar usuário' });
-    //   }
   }
 }
