@@ -60,10 +60,10 @@ export class UserController {
       return res.status(500).json({ error: 'Erro ao deletar usuário por ID' });
     }
   }
+
   async update(req: Request, res: Response) {
     const userId = req.params.id;
     const { email, name, login, password, img, token } = req.body;
-
     const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
     const updatedUser = await prisma.user.update({
       where: { id: parseInt(userId) },
@@ -78,9 +78,8 @@ export class UserController {
     });
     if (user) {
       return res.status(200).json({ user: updatedUser });
-    } else (!user); {
+    } else {
       return res.status(500).json({ error: 'Erro ao atualizar usuário' });
     }
-
   }
 }
