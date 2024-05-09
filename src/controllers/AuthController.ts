@@ -13,12 +13,12 @@ export class AuthController {
           { login }
         ]
       }
-    });
+    }) ?? { id: 0, email: '', name: null, login: null, password: '', img: null, token: null };
+    const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' });
+    const { password: userPassword, ...userData } = user
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'invalid credentials' });
     }
-    const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' });
-    const { password: userPassword, ...userData } = user
 
     await prisma.user.update({
       where: { id: user.id },
