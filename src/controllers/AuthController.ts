@@ -12,7 +12,7 @@ export class AuthController {
           { email },
           { login }
         ]
-      }
+      } 
     }) ?? { id: 0, email: '', name: null, login: null, password: '', img: null, token: null };
     const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' });
     const { password: userPassword, ...userData } = user
