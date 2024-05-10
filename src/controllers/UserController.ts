@@ -13,12 +13,12 @@ export class UserController {
     try {
       const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
       if (!user) {
-        return res.status(404).json({ error: 'Usuário não encontrado' });
+        return res.status(404).json({ error: 'User not found' });
       }
       return res.status(200).json({ user });
     } catch (error) {
-      console.error('Erro ao procurar usuario', error);
-      return res.status(500).json({ error: 'Erro ao procurar o usuario' });
+      console.error('Error when searching for user', error);
+      return res.status(500).json({ error: 'Error when searching for user' });
     }
   }
 
@@ -42,7 +42,6 @@ export class UserController {
         .status(400)
         .json({ error: 'error when creating user' })
     }
-
     return res.json({ user, message: 'Usuario criado com sucesso' })
   }
 
@@ -51,13 +50,13 @@ export class UserController {
     try {
       const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
       if (!user) {
-        return res.status(404).json({ error: 'Usuário não encontrado' });
+        return res.status(404).json({ error: 'User not found' });
       }
       await prisma.user.delete({ where: { id: parseInt(userId) } });
-      return res.status(200).json({ message: 'Usuário deletado com sucesso' });
+      return res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
-      console.error('Erro ao deletar usuário por ID:', error);
-      return res.status(500).json({ error: 'Erro ao deletar usuário por ID' });
+      console.error('Error when deleting user by ID:', error);
+      return res.status(500).json({ error: 'Error when deleting user by ID' });
     }
   }
 
@@ -79,7 +78,7 @@ export class UserController {
     if (user) {
       return res.status(200).json({ user: updatedUser });
     } else {
-      return res.status(500).json({ error: 'Erro ao atualizar usuário' });
+      return res.status(500).json({ error: 'Error updating user' });
     }
   }
 }

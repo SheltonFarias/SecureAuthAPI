@@ -14,7 +14,7 @@ export class AuthController {
           { login }
         ]
       }
-    }) ?? userFilds ;
+    }) ?? userFilds;
     const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' });
     const { password: userPassword, ...userData } = user
     if (!user || !(await bcrypt.compare(password, user.password))) {
