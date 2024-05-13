@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken'
 
 type TokenPayload = {
@@ -12,19 +12,17 @@ export function authMiddlwares(
   res: Response,
   next: NextFunction
 ) {
-  const { authorization } = req.headers // Extrai os parametros da solicitação
-
-  if (!authorization) {
-    return res.status(401).json({ error: 'Token not provided' })
-  }
-  const [token] = authorization.split(' ')[1] // divide authorization extraindo somente o campo referente a token
-
+  const { authorization } = req.headers // Extrair os parametros da solicitação
+  const [type, token] = authorization.split(' ')  // dividir authorization extraindo o campo referente a token   
+  const decoded = jwt.verify(token, 'secret')
+  const { id } = decoded as TokenPayload
   try {
-    const decoded = jwt.verify(token, 'secret')
-    const { id } = decoded as TokenPayload
+    if (type !== "Bearer" || !decoded) {
+      return res.status(401).json({ error: 'Invalid token format' })
+    }
     req.useId = id
-    res.status(201).json({ message: 'authorized access' })
     next()
+
   } catch (error) {
     return res.status(401).json({ error: 'Token invalid' })
   }
