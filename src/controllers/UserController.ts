@@ -42,7 +42,7 @@ export class UserController {
         .status(400)
         .json({ error: 'error when creating user' })
     }
-    return res.json({ user, message: 'Usuario criado com sucesso' })
+    return res.json({ user, message: 'Create User sucess' })
   }
 
   async delete(req: Request, res: Response) {
