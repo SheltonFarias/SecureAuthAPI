@@ -13,12 +13,12 @@ routes.post('/api/login', authController.login)
 
 //user
 routes.route('/api/usuarios/:id')
-  .get(authMiddlwares, userController.get)
+  .get( userController.get)
   .put(authMiddlwares, userController.update)
   .delete(authMiddlwares, userController.delete)
 
 routes.route('/api/usuarios')
-  .get(authMiddlwares, userController.list)
-  .post(authMiddlwares, userController.create)
+  .get( userController.list)
+  .post( userController.create)
 
 export { routes };
