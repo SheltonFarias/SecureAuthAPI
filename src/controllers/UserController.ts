@@ -24,15 +24,18 @@ export class UserController {
 
   async create(req: Request, res: Response) {
     const user = req.body;
-    const userExists = await prisma.user.findUnique({ where: { email:user.email } })
+    const userExists = await prisma.user.findUnique({ where: { email: user.email } })
     const passwordHash = await bcrypt.hash(user.password, 10)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const users = await prisma.user.create({
+    const users = /* isCreated() ? */  await prisma.user.create({
       data: {
         ...user,
-        password:passwordHash
+        password: passwordHash
+        /* : null */
       }
     })
+    // if (user) return res.json(user)
+    // else return res.status(400).json({ error: 'error when creating user' })
     if ((userExists) && (user.email.length < 5 || user.email.length > 100) && (!emailRegex.test(user.email))) {
       return res
         .status(400)
