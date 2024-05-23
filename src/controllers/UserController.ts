@@ -10,28 +10,24 @@ export class UserController {
 
   async get(req: Request, res: Response) {
     const userId = req.params.id;
-    try {
-      const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-      return res.status(200).json({ user });
-    } catch (error) {
-      console.error('Error when searching for user', error);
-    }
+    const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    return res.status(200).json({ user });
   }
 
   async create(req: Request, res: Response) {
     const user = req.body;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     const passwordHash = await bcrypt.hash(user.password, 10)
-    const createUser = await prisma.user.create({
-      data: {
-        ...user,
-        password: passwordHash
-      }
-    })
-    if (createUser && emailRegex) return res.json(createUser)
+    if (emailRegex.test(user.email)) {
+      const createUser = await prisma.user.create({
+        data: {
+          ...user,
+          password: passwordHash
+        }
+      })
+      return res.json(createUser)
+    }
     else return res.status(400).json({ error: 'error when creating user' })
   }
 
@@ -48,14 +44,16 @@ export class UserController {
     const userId = req.params.id;
     const user = req.body;
     const users = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
-    const updatedUser = await prisma.user.update({
-      where: { id: parseInt(userId) },
-      data: {
-        ...user,
-        password: user.password ? await bcrypt.hash(user.password, 10) : undefined,
-      }
-    });
-    if (users) return res.status(200).json({ user: updatedUser })
+    if (users) {
+      const updatedUser = await prisma.user.update({
+        where: { id: parseInt(userId) },
+        data: {
+          ...user,
+          password: user.password ? await bcrypt.hash(user.password, 10) : undefined,
+        }
+      });
+      return res.status(200).json({ user: updatedUser })
+    }
     else return res.status(500).json({ error: 'Error updating user' });
   }
 }
