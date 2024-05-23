@@ -15,8 +15,7 @@ export class AuthController {
       }
     })
     const token = user ? jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' }) : null;
-    const isPassword = await bcrypt.compare(password, user.password)
-    if (!user || !isPassword) {
+    if (!user || !await bcrypt.compare(password, user.password)) {
       return res.status(401).json({ message: 'invalid credentials' });
     }
     delete user.password
