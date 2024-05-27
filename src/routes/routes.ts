@@ -14,6 +14,9 @@ const userController = new UserController()
 // auth
 routes.post('/api/login', authController.login)
 
+// upload image
+routes.put('/api/usuarios/upload/:id', upload.single('file'), userController.uploadImg);
+
 //user
 routes.route('/api/usuarios/:id')
   .get( userController.get)
@@ -23,7 +26,5 @@ routes.route('/api/usuarios/:id')
 routes.route('/api/usuarios')
   .get( userController.list)
   .post( userController.create)
-
-routes.put('/api/usuarios/:id/upload', upload.single('file'), userController.uploadImage);
 
 export { routes };
