@@ -57,24 +57,17 @@ export class UserController {
     else return res.status(500).json({ error: 'Error updating user' });
   }
 
-  async uploadImage(req: Request, res: Response) {
+  async uploadImg(req: Request, res: Response) {
     const userId = req.params.id;
-    if (!req.file) {
-      return res.status(400).json({ error: 'No file uploaded' });
-    }
-
     const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    const updatedUser = await prisma.user.update({
-      where: { id: parseInt(userId) },
-      data: {
-        img: req.file.path
-      }
-    });
-
-    return res.status(200).json({ user: updatedUser });
+    if (user) {
+      const updatedUser = await prisma.user.update({
+        where: { id: parseInt(userId) },
+        data: {
+          img: req.file.path
+        }
+      });
+      return res.status(200).json({ user: updatedUser });
+    } else return res.status(404).json({ error: 'User not found' });
   }
 }
