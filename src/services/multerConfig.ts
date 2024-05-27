@@ -2,12 +2,11 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-// Define the storage strategy
 export const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     const uploadPath = path.resolve('uploads');
 
-    // Ensure the upload directory exists
+    // identifica de o diretorio existe, se não cria um diretorio
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
     }

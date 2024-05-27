@@ -1,8 +1,8 @@
 import { AuthController } from '@/controllers/AuthController';
 import { UserController } from '@/controllers/UserController';
 import { authMiddlwares } from '@/middlewares/auth';
-import multer from 'multer';
 import { storage } from '@/services/multerConfig'
+import multer from 'multer';
 
 const upload = multer({ storage: storage })
 const { Router } = require('express')
@@ -24,10 +24,6 @@ routes.route('/api/usuarios')
   .get( userController.list)
   .post( userController.create)
 
-  routes.post('/upload', upload.single('file'), (req, res) => {
-    return res.json(req.file.filename);
-  })
-
-  routes.put('/api/usuarios/:id/upload', upload.single('file'), userController.uploadImage);
+routes.put('/api/usuarios/:id/upload', upload.single('file'), userController.uploadImage);
 
 export { routes };

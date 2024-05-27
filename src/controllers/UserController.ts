@@ -62,12 +62,10 @@ export class UserController {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
     }
-
     const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-
     const updatedUser = await prisma.user.update({
       where: { id: parseInt(userId) },
       data: {
