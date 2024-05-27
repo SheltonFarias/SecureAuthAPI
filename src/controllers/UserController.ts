@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import { prisma } from '@/services/prisma'
+import { storage } from '@/services/multerConfig'
+import multer from 'multer';
 
 export class UserController {
   async list(req: Request, res: Response) {
@@ -59,6 +61,8 @@ export class UserController {
 
   async uploadImg(req: Request, res: Response) {
     const userId = req.params.id;
+    const upload = multer({ storage: storage })
+    upload.single('file')
     const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
     if (user) {
       const updatedUser = await prisma.user.update({

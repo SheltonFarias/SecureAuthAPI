@@ -1,10 +1,7 @@
 import { AuthController } from '@/controllers/AuthController';
 import { UserController } from '@/controllers/UserController';
 import { authMiddlwares } from '@/middlewares/auth';
-import { storage } from '@/services/multerConfig'
-import multer from 'multer';
 
-const upload = multer({ storage: storage })
 const { Router } = require('express')
 const routes = Router();
 
@@ -15,7 +12,7 @@ const userController = new UserController()
 routes.post('/api/login', authController.login)
 
 // upload image
-routes.put('/api/usuarios/upload/:id', upload.single('file'), userController.uploadImg);
+routes.put('/api/usuarios/upload/:id', userController.uploadImg);
 
 //user
 routes.route('/api/usuarios/:id')
