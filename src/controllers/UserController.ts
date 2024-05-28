@@ -61,17 +61,33 @@ export class UserController {
 
   async uploadImg(req: Request, res: Response) {
     const userId = req.params.id;
-    const upload = multer({ storage: storage })
-    upload.single('file')
-    const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
-    if (user) {
-      const updatedUser = await prisma.user.update({
-        where: { id: parseInt(userId) },
-        data: {
-          img: req.file.path
+
+    try {
+      const upload = multer({ storage: storage }).single('file');
+      
+      upload(req, res, async (err: any) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ error: 'Error uploading file' });
+        }
+
+        const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+
+        if (user) {
+          const updatedUser = await prisma.user.update({
+            where: { id: parseInt(userId) },
+            data: {
+              img: req.file.path.replace(/\\/g, "/") // Replace backslashes with forward slashes
+            }
+          });
+          return res.status(200).json({ user: updatedUser });
+        } else {
+          return res.status(404).json({ error: 'User not found' });
         }
       });
-      return res.status(200).json({ user: updatedUser });
-    } else return res.status(404).json({ error: 'User not found' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
   }
 }
