@@ -12,17 +12,17 @@ const userController = new UserController()
 routes.post('/api/login', authController.login)
 
 // upload image
-routes.put('/api/usuarios/upload/:id', userController.uploadImg);
+routes.put('/api/usuarios/upload/:id',authMiddlwares , userController.uploadImg);
 
 //user
 routes.route('/api/usuarios/:id')
-  .get( userController.get)
-  .put( userController.update)
-  .delete( userController.delete)
+  .get(authMiddlwares, userController.get)
+  .put(authMiddlwares, userController.update)
+  .delete(authMiddlwares, userController.delete)
 
 routes.route('/api/usuarios')
-  .get( userController.list)
-  .post( userController.create)
+  .get(authMiddlwares, userController.list)
+  .post(authMiddlwares, userController.create)
 
 export { routes };
 
