@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import { prisma } from '@/services/prisma'
 import { storage } from '@/services/multerConfig'
 import multer from 'multer';
+import path from 'path';
 
 export class UserController {
   async list(req: Request, res: Response) {
@@ -63,19 +64,26 @@ export class UserController {
     const userId = req.params.id;
     const upload = multer({ storage: storage }).single('file');
     upload(req, res, async (err: any) => {
+      if (err) {
+        return res.status(500).json({ error: 'Failed to upload file' });
+      }
+
       const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
-      if (user) {
-        const updatedUser = await prisma.user.update({
-          where: { id: parseInt(userId) },
-          data: {
-            img: req.file.path.replace(/\\/g, "/") // Replace backslashes with forward slashes
-          }
-        });
-        return res.status(200).json({ user: updatedUser });
-      } else {
+
+      if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
-    })
+
+      const relativePath = path.relative(process.cwd(), req.file.path);
+
+      const updatedUser = await prisma.user.update({
+        where: { id: parseInt(userId) },
+        data: {
+          img: relativePath
+        }
+      });
+
+      return res.status(200).json({ user: updatedUser });
+    });
   }
 }
-
