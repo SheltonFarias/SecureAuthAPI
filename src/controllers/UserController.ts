@@ -22,14 +22,15 @@ export class UserController {
   async create(req: Request, res: Response) {
     const user = req.body;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-    const passwordHash = await bcrypt.hash(user.password, 10)
+    // const passwordHash = await bcrypt.hash(user.password, 10) // sem uso no momento
     const hash = crypto.createHash('sha256')
     hash.update(user.password)
+    hash.disgest('hex')
     if (emailRegex.test(user.email)) {
       const createUser = await prisma.user.create({
         data: {
           ...user,
-          password: passwordHash
+          password:hash
         }
       })
       return res.json(createUser)
