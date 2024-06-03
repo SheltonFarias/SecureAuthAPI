@@ -1,7 +1,7 @@
 import express from 'express'
 import { routes } from '@/routes/routes'
 import swaggerUI from 'swagger-ui-express'
-import swaggerDocument from '@/swagger.json'
+import swaggerDocument from '@/services/swagger.json'
 
 var cors = require('cors')
 

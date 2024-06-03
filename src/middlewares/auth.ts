@@ -16,16 +16,8 @@ export function authMiddlwares(
   const [type, token] = authorization.split(' ')  // dividir authorization extraindo o campo referente a token   
   const decoded = jwt.verify(token, 'secret')
   const { id } = decoded as TokenPayload
-  try {
-    if (type !== "Bearer" || !decoded) {
-      return res.status(401).json({ error: 'Invalid token format' })
-    }
-    req.useId = id
-    next()
-
-  } catch (error) {
-    return res.status(401).json({ error: 'Token invalid' })
+  req.useId = id
+  if (type !== "Bearer" || !decoded) {
+    return res.status(401).json({ error: '' })
   }
 }
-
-
