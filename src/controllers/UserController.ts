@@ -20,7 +20,7 @@ export class UserController {
     const user = req.body;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     // const passwordHash = await bcrypt.hash(user.password, 10)
-    const secret = 'teste'; // Ensure you have a secure secret in production
+    const secret = 'teste'; 
     const hash = crypto.createHmac('sha256', secret);
     hash.update(user.password);
     const hashedPassword = hash.digest('hex');
