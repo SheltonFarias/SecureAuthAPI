@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken'
 
 type TokenPayload = {
@@ -17,7 +17,8 @@ export function authMiddlwares(
   const decoded = jwt.verify(token, 'secret')
   const { id } = decoded as TokenPayload
   req.useId = id
-  if (type !== "Bearer" || !decoded) {
-    return res.status(401).json({ error: '' })
+  if (type !== 'Bearer' || !decoded) {
+    return res.status(401).json({ error: 'invalid' })
   }
+  return res.status(200).json('authorized')
 }

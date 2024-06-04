@@ -1,10 +1,7 @@
 import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import { prisma } from '@/services/prisma'
-import { storage } from '@/services/multerConfig'
-import multer from 'multer';
-import path from 'path';
-const crypto = require('crypto')
+import crypto from 'crypto';
 
 export class UserController {
   async list(req: Request, res: Response) {
@@ -22,15 +19,16 @@ export class UserController {
   async create(req: Request, res: Response) {
     const user = req.body;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-    // const passwordHash = await bcrypt.hash(user.password, 10) // sem uso no momento
-    const hash = crypto.createHash('sha256')
-    hash.update(user.password)
-    hash.disgest('hex')
+    // const passwordHash = await bcrypt.hash(user.password, 10)
+    const secret = 'teste'; // Ensure you have a secure secret in production
+    const hash = crypto.createHmac('sha256', secret);
+    hash.update(user.password);
+    const hashedPassword = hash.digest('hex');
     if (emailRegex.test(user.email)) {
       const createUser = await prisma.user.create({
         data: {
           ...user,
-          password:hash
+          password: hashedPassword
         }
       })
       return res.json(createUser)

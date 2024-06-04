@@ -15,7 +15,7 @@ routes.post('/api/login', authController.login)
 
 //user
 routes.route('/api/usuarios')
-  .post(authMiddlwares, userController.create)
+  .post( userController.create)
   .get(userController.list)
 
 routes.route('/api/usuarios/:id')
