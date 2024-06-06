@@ -1,6 +1,6 @@
 import { AuthController } from '@/controllers/AuthController';
 import { UserController } from '@/controllers/UserController';
-import { authMiddlwares } from '@/middlewares/auth';
+import { authMiddleware } from '@/middlewares/auth';
 
 const { Router } = require('express')
 const routes = Router();
@@ -19,9 +19,8 @@ routes.route('/api/usuarios')
   .get(userController.list)
 
 routes.route('/api/usuarios/:id')
-  .get(authMiddlwares, userController.get)
-  .put(authMiddlwares, userController.update)
-  .delete(authMiddlwares, userController.delete)
-
+  .get(authMiddleware, userController.get)
+  .put(authMiddleware, userController.update)
+  .delete(authMiddleware, userController.delete)
 
 export { routes };

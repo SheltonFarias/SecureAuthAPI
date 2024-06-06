@@ -9,7 +9,7 @@ const app = express()
 
 app.use(express.json());
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 app.use(cors({
 	origin: '*',
@@ -21,5 +21,3 @@ app.use(routes)
 app.listen(3000, () => {
 	console.log('Server on: http://localhost:3000 ON!')
 })
-
-

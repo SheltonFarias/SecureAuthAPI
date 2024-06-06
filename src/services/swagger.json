@@ -97,7 +97,7 @@
                   },
                   "name": {
                     "type": "string",
-                    "example": "John Doe"
+                    "example": "teste"
                   },
                   "img": {
                     "type": "string",
@@ -375,7 +375,7 @@
           },
           "name": {
             "type": "string",
-            "example": "John Doe"
+            "example": "Teste"
           },
           "email": {
             "type": "string",
