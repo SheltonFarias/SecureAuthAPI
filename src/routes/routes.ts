@@ -11,7 +11,7 @@ const userController = new UserController()
 routes.post('/api/login', authController.login)
 
 // upload image
-// routes.put('/api/usuarios/upload/:id', userController.uploadImg);
+routes.put('/api/usuarios/upload/:id', userController.uploadImg);
 
 //user
 routes.route('/api/usuarios')
