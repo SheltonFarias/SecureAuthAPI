@@ -63,4 +63,5 @@ export class UserController {
   async uploadImg(req: Request, res: Response) {
 
   }
+
 }
