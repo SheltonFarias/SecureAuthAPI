@@ -25,7 +25,7 @@ routes.route('/api/usuarios')
 
 routes.route('/api/usuarios/:id')
   .get(authMiddleware, userController.get)
-  .put(authMiddleware, userController.update)
-  .delete(authMiddleware, userController.delete)
+  .put(/*authMiddleware,*/ userController.update)
+  .delete(/*authMiddleware,*/ userController.delete)
 
 export { routes };
