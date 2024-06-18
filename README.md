@@ -31,3 +31,15 @@ Create Database: `npx prisma migrate dev`
 
 Start Server: `npm run dev`
 
+## Criação do Usuário
+ É necessario a conexao com um SGBD, com dados informados(usuário, banco de dados, senha) no arquivo 'docker-compose.yml'
+
+ A criação do Usuário vem atraves de um comando SQL
+
+ Primeiro certifique-se de que a extensão `pgcrypto` está instalada no seu banco de dados através desse comando:
+ 
+ `CREATE EXTENSION IF NOT EXISTS pgcrypto;`
+
+Após isso execute o comando SQL:
+
+ `INSERT INTO users (email, name, login, password) VALUES ('teste@teste.com', 'teste', 'teste1', digest('123456','sha256'));`
