@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import bcrypt from 'bcrypt'
 import { prisma } from '@/services/prisma'
 import crypto from 'crypto'
 import multer from 'multer';
@@ -61,7 +60,22 @@ export class UserController {
   }
 
   async uploadImg(req: Request, res: Response) {
+    const userId = req.params.id;
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
 
+    const filePath = `/uploads/${req.file.filename}`;
+    const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+    if (user) {
+      const updatedUser = await prisma.user.update({
+        where: { id: parseInt(userId) },
+        data: { img: filePath }
+      });
+      return res.status(200).json({ user: updatedUser });
+    } else {
+      return res.status(404).json({ error: 'User not found' });
+    }
   }
 
 }

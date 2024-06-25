@@ -1,9 +1,17 @@
 import express from 'express'
 import { routes } from '@/routes/routes'
+import { storage } from './services/multerConfig'
+import multer from 'multer'
 
-var cors = require('cors')
+
+const upload = multer({ storage: storage })
+const cors = require('cors')
 
 const app = express()
+
+app.post("/upload", upload.single('file'), (req, res) => {
+	return res.json(req.file.filename);
+})
 
 app.use(express.json());
 
