@@ -65,7 +65,7 @@ export class UserController {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    const filePath = `/uploads/${req.file.filename}`;
+    const filePath = `uploads/${req.file.filename}`;
     const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
     if (user) {
       const updatedUser = await prisma.user.update({
