@@ -1,8 +1,6 @@
 import { Request, Response } from 'express'
 import { prisma } from '@/services/prisma'
 import crypto from 'crypto'
-import multer from 'multer';
-import path from 'path';
 
 export class UserController {
   async list(req: Request, res: Response) {
@@ -61,20 +59,16 @@ export class UserController {
 
   async uploadImg(req: Request, res: Response) {
     const userId = req.params.id;
-    if (!req.file) {
-      return res.status(400).json({ error: 'No file uploaded' });
-    }
-
     const filePath = `uploads/${req.file.filename}`;
     const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
-    if (user) {
+    if (user && req.file) {
       const updatedUser = await prisma.user.update({
         where: { id: parseInt(userId) },
         data: { img: filePath }
       });
       return res.status(200).json({ user: updatedUser });
     } else {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(400).json({ error: 'No uploaded' });
     }
   }
 
