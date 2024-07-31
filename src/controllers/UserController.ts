@@ -18,7 +18,7 @@ export class UserController {
   async create(req: Request, res: Response) {
     const user = req.body
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-    const sha256Password = crypto.createHash('sha256').update(user.password).digest('hex');
+    const sha256Password = crypto.createHash('sha256').update(user.password).digest('hex')
     if (emailRegex.test(user.email)) {
       const createUser = await prisma.user.create({
         data: {
@@ -58,17 +58,17 @@ export class UserController {
   }
 
   async uploadImg(req: Request, res: Response) {
-    const userId = req.params.id;
-    const filePath = `uploads/${req.file.filename}`;
-    const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+    const userId = req.params.id
+    const filePath = `uploads/${req.file.filename}`
+    const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } })
     if (user && req.file) {
       const updatedUser = await prisma.user.update({
         where: { id: parseInt(userId) },
         data: { img: filePath }
-      });
-      return res.status(200).json({ user: updatedUser });
+      })
+      return res.status(200).json({ user: updatedUser })
     } else {
-      return res.status(400).json({ error: 'No uploaded' });
+      return res.status(400).json({ error: 'No uploaded' })
     }
   }
 }

@@ -14,7 +14,7 @@ export class AuthController {
         ]
       }
     })
-    const sha256Password = crypto.createHash('sha256').update(password).digest('hex');
+    const sha256Password = crypto.createHash('sha256').update(password).digest('hex')
     const token = user ? jwt.sign({ id: user.id }, 'secret', { expiresIn: '1h' }) : null
     if (!user && sha256Password !== user.password) {
       return res.status(401).json({ message: 'invalid credentials' })
