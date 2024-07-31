@@ -29,6 +29,6 @@ routes.route('/api/usuarios/:id')
   .delete(/*authMiddleware,*/ userController.delete)
 
 // upload image
-routes.put('/api/usuarios/upload/:id', upload.single('file'), userController.uploadImg);
+routes.put('/api/usuarios/upload/:id', upload.single('file'), userController.uploadImg)
 
-export { routes };
+export { routes }

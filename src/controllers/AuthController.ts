@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { prisma } from '@/services/prisma'
 import jwt from 'jsonwebtoken'
-import crypto from 'crypto';
+import crypto from 'crypto'
 
 export class AuthController {
   async login(req: Request, res: Response) {
