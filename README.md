@@ -3,7 +3,7 @@
 [EXPRESS__BADGE]: https://img.shields.io/badge/express-005CFE?style=for-the-badge&logo=express
 [NODEJS__BADGE]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
 [PRISMA__BADGE]: https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white
-# Documentacao API
+# Documentacão API
 
 ![javascript][JAVASCRIPT__BADGE]
 ![typescript][TYPESCRIPT__BADGE]
